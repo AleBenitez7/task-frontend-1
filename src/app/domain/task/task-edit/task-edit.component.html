@@ -2,7 +2,6 @@
     <ng-template pTemplate="header">
         <app-header  [isEdicion]="true" [titulo]="titulo" [ruta]="ruta"></app-header>
     </ng-template>
-
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-col-12 p-md-6">
             <div class="card">
@@ -51,7 +50,61 @@
                     </span>
                 </div>
 
-    
+
+                <div *ngIf="task.id" class="card" style="margin: 20px;">
+                    <p-table [value]="subtask" #dt1 dataKey="id" >
+
+                        <ng-template pTemplate="caption">
+                            <div class="table-header" style="text-align: center;">
+                                SubTask            
+                            </div>
+                            <button pButton pRipple icon="pi pi-plus" class="p-button-success p-mr-2" (click)="addSubtask()"></button>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="id">
+                                    ID
+                                    <p-sortIcon field="id"></p-sortIcon>
+                                </th>
+            
+                                <th pSortableColumn="name">
+                                    Titulo
+                                    <p-sortIcon field="name"></p-sortIcon>
+                                </th>
+
+                                <th pSortableColumn="date">
+                                    Fecha
+                                    <p-sortIcon field="date"></p-sortIcon>
+                                </th>
+
+                                <th pSortableColumn="descripcion">
+                                    Descripcion
+                                    <p-sortIcon field="descripcion"></p-sortIcon>
+                                </th>
+
+                                <th>
+                                    Opciones
+                                </th>
+
+                        </ng-template>
+            
+            
+                        <ng-template pTemplate="body" let-subtask>
+                            <tr>
+                                <td>{{subtask.id}}</td>
+                                <td>{{subtask.name}}</td>
+                                <td>{{subtask.date}}</td>
+                                <td>{{subtask.descripcion }}</td>
+                                <td>
+                                    <button pButton type="button" icon="pi pi-pencil" (click)="editSubtask(subtask)" class="me-3"></button>
+                                    <button pButton pRipple icon="pi pi-trash" (click)="delete(subtask)" class="p-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            
                 <div class="p-field" style="margin-top: 10px;">
                     <button pButton pRipple type="button" (click)="isModoEdicion ? update() : add()" styleClass="p-button-success p-mr-2 p-mb-2"  label="Guardar" ></button>
                 </div>
@@ -59,5 +112,41 @@
             </div>
         </div>
     </div>
-
 </p-card>
+
+<p-confirmDialog header="DELETE SUBTASK"  icon="pi pi-exclamation-triangle" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" 
+[style]="{width: '50vw'}"></p-confirmDialog>
+
+<p-dialog header="Error" [(visible)]="displayDialog" icon="pi pi-exclamation-triangle">
+    <p>No se ha podido eliminar</p>
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayDialog=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="subtaskDialog" [style]="{width: '450px'}" header="Subtask" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="name">Name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="subtaskEdit.name" required autofocus />
+        </div>
+
+        <div class="p-field">
+            <label for="date">Date</label>
+            <p-calendar id="date" [(ngModel)]="subtaskEdit.date" [showTime]="true" [showIcon]="true" ></p-calendar>
+        </div>
+
+        <div class="p-field">
+            <label for="descripcion">Description</label>
+            <textarea id="descripcion" pInputTextarea [(ngModel)]="subtaskEdit.descripcion" required rows="3" cols="20"></textarea>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveSubtask(subtaskEdit)"></button>
+    </ng-template>
+</p-dialog>
+
+

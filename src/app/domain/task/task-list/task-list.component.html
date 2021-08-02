@@ -10,24 +10,50 @@
                     <th pSortableColumn="id">
                         ID
                         <p-sortIcon field="id"></p-sortIcon>
-                        <p-columnFilter type="text" field="id" display="menu"></p-columnFilter>
                     </th>
 
                     <th pSortableColumn="titulo">
                         Titulo
                         <p-sortIcon field="titulo"></p-sortIcon>
-                        <p-columnFilter type="text" field="titulo" display="menu"></p-columnFilter>
                     </th>
+                    
+                    <th pSortableColumn="fechaCreacion">
+                        Fecha de Creación
+                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="descripcion">
+                        Descripción
+                        <p-sortIcon field="descripcion"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="nivelPrioridad">
+                        Nivel de Prioridad
+                        <p-sortIcon field="nivelPrioridad"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="status">
+                        Estado
+                        <p-sortIcon field="status"></p-sortIcon>
+                    </th>
+                    
                     <th>Opciones</th>
                 </tr>
             </ng-template>
+
+
             <ng-template pTemplate="body" let-task>
                 <tr>
                     <td>{{task.id}}</td>
                     <td>{{task.titulo}}</td>
+                    <td>{{task.fechaCreacion}}</td>
+                    <td>{{task.descripcion}}</td>
+                    <td>{{task.nivelPrioridad}}</td>
+                    <td>{{task.status}}</td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" [routerLink]="['/task', task.id]"  class="p-button-rounded p-button-success p-mr-2" ></button>
-                        <button pButton pRipple icon="pi pi-trash" (click)="delete(task.id)" class="p-button-rounded p-button-warning"></button>
+                        
+                        <button pButton type="button" icon="pi pi-pencil" iconPos="left"[routerLink]="['/task', task.id]"  class="me-3" ></button>
+                        <button pButton pRipple icon="pi pi-trash" (click)="delete(task.id)" class="p-button-danger"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -35,13 +61,16 @@
     </div>
 
     
+    
 </p-card>
 
 <p-confirmDialog header="DELETE TASK"  icon="pi pi-exclamation-triangle" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"></p-confirmDialog>
 
 <p-dialog header="Error" [(visible)]="display" icon="pi pi-exclamation-triangle">
     <p>No se ha podido eliminar</p>
+
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
+    
 </p-dialog>
